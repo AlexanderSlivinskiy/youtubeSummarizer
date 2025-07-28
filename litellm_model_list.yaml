@@ -1,0 +1,4 @@
+models:
+  - model_name: your_model_name
+    litellm_params:
+      model: your_model

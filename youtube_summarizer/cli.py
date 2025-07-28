@@ -5,7 +5,8 @@ Command line interface for the YouTube Summary package.
 import time
 import argparse
 
-from youtube_summarizer.transcript import get_transcript, summary_prompt
+from youtube_summarizer.transcript import get_transcript
+from youtube_summarizer.prompts import summary_prompt
 from youtube_summarizer.llm import model
 
 CHOICES = ["summary"]
@@ -23,6 +24,7 @@ def get_video_id(video_url):
     else:
         video_id = video_url
     video_id = video_id.split("?feature=")[0]
+    return video_id
 
 def main():
     """Main CLI entry point."""
@@ -50,11 +52,12 @@ def main():
 
     video_url = args.video_url.strip()
     video_id = get_video_id(video_url)
+    print(f"Video ID: {video_id}")
 
     # Get transcript
     for attempt in range(3):
         try:
-            formatted = get_transcript(video_id)
+            transcript = get_transcript(video_id)
             break
         except Exception as e:
             print(f"Error fetching transcript: {e}")
@@ -66,10 +69,17 @@ def main():
                 return
 
     # Select prompt function
-    prompt_function = summary_prompt
+    prompt = summary_prompt
+
+    optional_topic = (
+        "Focus specifically on the topic of: {optional_topic}\n"
+        if optional_topic
+        else ""
+    )
+    prompt = prompt.format(transcript=transcript, optional_topic=optional_topic)
 
     # Make LLM call with retries
-    response = model.invoke(prompt_function(formatted, topic))
+    response = model.invoke(prompt)
     print(response.content)
 
 

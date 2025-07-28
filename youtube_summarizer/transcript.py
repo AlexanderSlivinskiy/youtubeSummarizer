@@ -35,29 +35,3 @@ def get_transcript(video_id):
         print(f"Transcript data: {x}")
         raise e
     return formatted
-
-
-def summary_prompt(transcript: str, optional_topic: str = None) -> str:
-    prompt = (
-        """
-    Summarize the following youtube transcript.
-    It's an automatically generated transcript of a video, so it may contains errors in grammar, spelling and punctuation.
-    Create bullet points and use markdown formatting.
-    Answer in the language of the transcript.
-    {optional_topic}
-
-
-    TRANSCRIPT:
-    ```
-    {transcript}
-    ```
-    """
-    ).strip()
-
-    optional_topic = (
-        "Focus specifically on the topic of: {optional_topic}\n"
-        if optional_topic
-        else ""
-    )
-    prompt = prompt.format(transcript=transcript, optional_topic=optional_topic)
-    return prompt

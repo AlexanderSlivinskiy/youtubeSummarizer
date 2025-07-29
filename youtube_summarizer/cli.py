@@ -73,7 +73,7 @@ def main():
 
     optional_topic = (
         "Focus specifically on the topic of: {optional_topic}\n"
-        if optional_topic
+        if topic
         else ""
     )
     prompt = prompt.format(transcript=transcript, optional_topic=optional_topic)

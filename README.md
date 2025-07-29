@@ -77,6 +77,11 @@ youtube-summarizer https://www.youtube.com/watch?v=some-tech-talk-video "machine
 
 The script will fetch the video's transcript, send it to the configured LLM, and print the resulting summary to the console.
 
+### Limitations:
+1. Since the script is fetching the transcripts of the video, there is nothing I can do if there is no transcript provided for a video.
+2. You can might get rate-limited, but should not if you don't use this for scraping.
+3. On servers you might need a residential proxy.
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
